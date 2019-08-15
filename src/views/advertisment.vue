@@ -2,7 +2,7 @@
   <div>
     <l-advertise>
       <template v-slot:link-me>
-        <router-link class="back-link" to="/">weiter zur publishing-metro-map.com/pwa</router-link>
+        <router-link class="back-link" to="/pwa">weiter zur publishing-metro-map.com/pwa</router-link>
       </template>
     </l-advertise>
   </div>

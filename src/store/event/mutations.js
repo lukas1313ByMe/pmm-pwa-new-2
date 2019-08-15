@@ -6,6 +6,7 @@ const SET_SDATA = "SET_SDATA";
 const SET_HDATA = "SET_HDATA";
 const SET_SETTINGS = "SET_SETTINGS";
 const SET_CURRENTDATA = "SET_CURRENTDATA";
+const SET_DEEPER = "SET_DEEPER";
 
 const mutations = {
   [SET_TAG](state, payload) {
@@ -31,6 +32,9 @@ const mutations = {
   },
   [SET_SETTINGS](state, payload) {
     state.hData.list = payload;
+  },
+  [SET_DEEPER](state, payload) {
+    state.deeper = payload;
   }
 };
 

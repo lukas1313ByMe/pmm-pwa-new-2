@@ -4,17 +4,17 @@
       <img
         style="-webkit-filter: grayscale(100%);
   filter: grayscale(100%);"
-        v-if="navbar === 'home'"
-        src="../assets/logonew.png"
+        v-if="navbar === '#home'"
+        :src="left"
       >
       <img v-else :src="navbar">
     </router-link>
-    <router-link to="/home/home">
+    <router-link to="/pwa">
       <img :src="oyen" alt="oyen.de">
       <!-- <span style="padding: 4px 20px" v-else class="mx-text red--text">{{tag.name}}</span> -->
     </router-link>
-    <router-link to="/text">
-      <img src="../assets/more.png">
+    <router-link to="/navigation/tags">
+      <img @click="changeRoute" :src="right">
     </router-link>
   </div>
 </template>
@@ -23,14 +23,25 @@
 import { mapState } from "vuex";
 export default {
   props: ["newspaper", "oyen", "more"],
+  data() {
+    return {
+      right: "../assets/more.png",
+      left: "../assets/logonew.png"
+    };
+  },
   computed: {
     ...mapState("event", ["tag", "navbar"]),
     checkTag() {
       if (this.tag.name === "Home") {
-        return "/advertisment";
+        return "/lukas/advertisment";
       } else {
         return "/tag/" + this.tag.name;
       }
+    }
+  },
+  methods: {
+    changeRoute() {
+      this.$store.commit("event/SET_TAG", "world");
     }
   }
 };
@@ -79,6 +90,27 @@ export default {
   .app-bar {
     width: 41%;
     margin: 0 30%;
+  }
+}
+
+@media screen and (min-width: 100px) and (max-width: 1300px) {
+  .app-bar {
+    width: 100%;
+    margin: 0 0%;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (max-height: 1366px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 1.5) {
+  .app-bar {
+    width: 100%;
+    margin: 0%;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (max-height: 1366px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1.5) {
+  .app-bar {
+    width: 100%;
+    margin: 0%;
   }
 }
 </style>

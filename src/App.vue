@@ -37,8 +37,6 @@ export default {
       setTimeout(() => {
         this.isAdvertise = false;
       }, 1612);
-    } else {
-      console.log(this.$store.state.event.loaded);
     }
   }
 };

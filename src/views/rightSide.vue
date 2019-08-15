@@ -1,41 +1,50 @@
 <template>
-  <div>
-    <div class="production">
-      <div class="listing" v-for="i in list" :key="i.name">
-        <ul>
-          <div class="icon-inner" v-if="i.src != ''">
-            <img
-              v-if="lastId === i.id"
-              @click="loadEvents(i, i.id)"
-              style="transform: translate(0,11px)"
-              :class="{ 'active-image': isShown(i.id) }"
-              class="m-text"
-              :src="i.active"
-              alt="active"
-            >
-            <img
-              v-else
-              @click="loadEvents(i, i.id)"
-              style="transform: translate(0,11px)"
-              :class="{ 'active-image': isShown(i.id) }"
-              class="m-text"
-              :src="i.no"
-              alt="not-active"
-            >
-            <li style="transform: translate(30px,28px)" class="text">
-              <a @click="goTag(i, i.id)">{{i.text}}</a>
-            </li>
-          </div>
-        </ul>
-      </div>
+  <div class="production">
+    <div
+      class="center-me"
+      style="padding:0 !important; margin: 0"
+      v-if="deeper != '' && tag === 'random'"
+    >
+      <l-deeper :data="deeper"></l-deeper>
+    </div>
+    <div v-else class="listing center-me" v-for="i in list" :key="i.name">
+      <ul>
+        <div class="icon-inner" v-if="i.src != ''">
+          <img
+            v-if="lastId === i.id"
+            @click="loadEvents(i, i.id)"
+            style="transform: translate(0,11px)"
+            :class="{ 'active-image': isShown(i.id) }"
+            class="m-text"
+            :src="i.active"
+            alt="active"
+          >
+          <img
+            v-else
+            @click="loadEvents(i, i.id)"
+            style="transform: translate(0,11px)"
+            :class="{ 'active-image': isShown(i.id) }"
+            class="m-text"
+            :src="i.no"
+            alt="not-active"
+          >
+          <li style="transform: translate(30px,28px)" class="text">
+            <a style="color: #000 !important" @click="goTag(i, i.id)">{{i.text}}</a>
+          </li>
+        </div>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
+import lDeeper from "@/components/deeper";
 import { mapState } from "vuex";
 
 export default {
+  components: {
+    lDeeper
+  },
   methods: {
     isShown(i) {
       return this.show[i];
@@ -55,28 +64,28 @@ export default {
         // push api data in tag object (store)
 
         this.$store.commit("event/SET_TAG", tag);
-        await this.$router.push(`/home/${tag.name}`);
+        await this.$router.push(`/pwa/${tag.name}/`);
       } else {
         console.log("both");
       }
     },
     async goTag(tag, i) {
-      // this.$store.commit("event/SET_NAVBAR", "home");
+      // this.$store.commit("event/SET_NAVBAR", );
 
       this.$store.state.event.hData = [];
 
       this.changeShow(i);
       // push api data in tag object (store)
-
+      // this.$store.commit("event/SET_SDATA", tag);
       this.$store.commit("event/SET_TAG", tag);
-      await this.$router.push(`/tag/${tag.name}`);
+      await this.$router.push(`/tag/${tag.name}/`);
     }
   },
   mounted() {
     this.changeShow(this.lastId);
   },
   computed: {
-    ...mapState("event", ["lastId", "tag"])
+    ...mapState("event", ["lastId", "tag", "deeper"])
   },
   data() {
     return {
@@ -92,6 +101,7 @@ export default {
       list: [
         {
           name: "Home",
+          id_n: "#home",
           link: "",
           active: "https://www.oyen.de/img/logo_saso.png",
           no: "https://www.oyen.de/img/logo.png",
@@ -100,6 +110,7 @@ export default {
         },
         {
           name: "bra",
+          id_n: "#BRA",
           active: "https://publishing-metro-map.com/pwa/png/1/bra.png",
           no: "https://publishing-metro-map.com/pwa/png/0/bra.png",
           link: "https://publishing-metro-map.com/bra.php",
@@ -108,6 +119,7 @@ export default {
         },
         {
           name: "con",
+          id_n: "#CON",
           link: "https://publishing-metro-map.com/con.php",
           text: "Consulting",
           active: "https://publishing-metro-map.com/pwa/png/1/con.png",
@@ -116,6 +128,7 @@ export default {
         },
         {
           name: "cop",
+          id_n: "#COP",
           link: "https://publishing-metro-map.com/cop.php",
           text: "Corporate Publishing",
           active: "https://publishing-metro-map.com/pwa/png/1/cop.png",
@@ -124,6 +137,7 @@ export default {
         },
         {
           name: "crm",
+          id_n: "#CRM",
           link: "https://publishing-metro-map.com/crm.php",
           text: "Customer Relations Management",
           active: "https://publishing-metro-map.com/pwa/png/1/crm.png",
@@ -132,6 +146,7 @@ export default {
         },
         {
           name: "dbp",
+          id_n: "#DBP",
           link: "https://publishing-metro-map.com/dbp.php",
           text: "Database Publishing",
           active: "https://publishing-metro-map.com/pwa/png/1/dbp.png",
@@ -140,6 +155,7 @@ export default {
         },
         {
           name: "ebo",
+          id_n: "#EBO",
           link: "https://publishing-metro-map.com/ebo.php",
           text: "E-Book Conversion",
           active: "https://publishing-metro-map.com/pwa/png/1/ebo.png",
@@ -148,6 +164,7 @@ export default {
         },
         {
           name: "edi",
+          id_n: "#EDI",
           link: "https://publishing-metro-map.com/edi.php",
           text: "Editorial Workflow Systems",
           active: "https://publishing-metro-map.com/pwa/png/1/edi.png",
@@ -156,6 +173,7 @@ export default {
         },
         {
           name: "edu",
+          id_n: "#EDU",
           link: "https://publishing-metro-map.com/edu.php",
           text: "Education",
           active: "https://publishing-metro-map.com/pwa/png/1/edu.png",
@@ -164,6 +182,7 @@ export default {
         },
         {
           name: "epa",
+          id_n: "#EPA",
           link: "https://publishing-metro-map.com/epa.php",
           text: "Electronic Paper",
           active: "https://publishing-metro-map.com/pwa/png/1/epa.png",
@@ -172,6 +191,7 @@ export default {
         },
         {
           name: "mam",
+          id_n: "#MAM",
           link: "https://publishing-metro-map.com/mam.php",
           text: "(Digital) Media Asset Management",
           active: "https://publishing-metro-map.com/pwa/png/1/mam.png",
@@ -180,6 +200,7 @@ export default {
         },
         {
           name: "mrm",
+          id_n: "#MRM",
           link: "https://publishing-metro-map.com/mrm.php",
           text: "Marketing Resource Management",
           active: "https://publishing-metro-map.com/pwa/png/1/mrm.png",
@@ -188,6 +209,7 @@ export default {
         },
         {
           name: "pim",
+          id_n: "#PIM",
           link: "https://publishing-metro-map.com/pim.php",
           text: "Product Information Management",
           active: "https://publishing-metro-map.com/pwa/png/1/pim.png",
@@ -196,6 +218,7 @@ export default {
         },
         {
           name: "tec",
+          id_n: "#TEC",
           link: "https://publishing-metro-map.com/tec.php",
           text: "Technical Documentation",
           active: "https://publishing-metro-map.com/pwa/png/1/tec.png",
@@ -204,6 +227,7 @@ export default {
         },
         {
           name: "vdp",
+          id_n: "#VDP",
           link: "https://publishing-metro-map.com/vdp.php",
           text: "Variable Data Printing",
           active: "https://publishing-metro-map.com/pwa/png/1/vdp.png",
@@ -212,6 +236,7 @@ export default {
         },
         {
           name: "w2p",
+          id_n: "#W2P",
           link: "https://publishing-metro-map.com/w2p.php",
           text: "Web-to-Print",
           active: "https://publishing-metro-map.com/pwa/png/1/w2p.png",
@@ -319,11 +344,22 @@ img {
   align-items: stretch;
 }
 
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 800px) {
   .production {
-    width: 60% !important;
-    padding: 0% 40% 4% 40%;
+    width: 100% !important;
+    padding: 0% 10% 4% 0% !important;
     overflow-x: hidden;
+  }
+  .center-me {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+@media only screen and (min-width: 1024px) and (max-height: 1366px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 1.5) {
+  .userCard {
+    width: 60% !important;
+    margin: 0%;
   }
 }
 </style>

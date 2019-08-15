@@ -15,7 +15,7 @@ export default new Router({
       component: Home
     },
     {
-      path: "/home/:id",
+      path: "/:id",
       name: "home",
       component: Home
     },
@@ -25,12 +25,12 @@ export default new Router({
       component: tag
     },
     {
-      path: "/text",
+      path: "/navigation/:id",
       name: "text",
       component: rightSide
     },
     {
-      path: "/advertisment",
+      path: "/lukas/advertisment",
       name: "advertsiment",
       component: advertise
     }

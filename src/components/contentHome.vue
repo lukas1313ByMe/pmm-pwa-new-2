@@ -11,12 +11,10 @@
         </div>
       </div>
     </div>
-    <div v-else v-for="(i) in hData" :key="i.ele.id" class="card wrapper card-shadow">
-      <div class="inner--wrapper">
-        <h3 class="headline">{{i.ele.name}}</h3>
-        <!-- <span class="tag">{{ i.pwa_tag }}</span> -->
-      </div>
-      <span v-html="i.ele.description"></span>
+    <div v-else v-for="i in hData" :key="i.ele.id" class="userCard card-shadow">
+      <img @click="deeperView(i.ele)" :src="i.ele.img_icon" alt>
+      <h3>{{i.ele.name}}</h3>
+      <span v-html="trim(i)"></span>
     </div>
   </div>
 </template>
@@ -38,26 +36,27 @@ export default {
     ...mapState("event", ["tag", "hData", "data"])
   },
   created() {
-    //  this.scroll();
     this.getData();
     if (this.hData.length === 0) {
-      console.log(this.hData.length);
       setTimeout(() => {
         this.splitTags();
       }, 1200);
     } else {
-      console.log("full");
     }
   },
-  // watch: {
-  //   newestTag() {
-  //     this.splitTags()
-  //   }
-  // },
   methods: {
+    trim(event) {
+      const text = event.ele.description;
+      var newString = String(text);
+      return newString.substring(0, 110) + "...";
+    },
+    deeperView(data) {
+      this.$store.commit("event/SET_TAG", "random");
+      this.$store.commit("event/SET_DEEPER", data);
+      this.$router.push(`/navigation/${data.id}`);
+    },
     splitTags() {
       var tagList = [];
-      var tagCounter = 1;
 
       this.newestTag = this.tag.name;
       // get all tags from all elements
@@ -74,7 +73,6 @@ export default {
       });
       tagList.forEach(tag => {
         if (tag.pwa_tags.includes(this.tag.name)) {
-          tagCounter++;
           // this.givenData.push(tag);
           this.$store.commit("event/SET_HDATA", tag);
         }
@@ -88,23 +86,47 @@ export default {
           this.$store.commit("event/SET_SDATA", doc);
         }
       });
-    },
-    scroll(person) {
-      window.onscroll = () => {
-        let bottomOfWindow =
-          document.documentElement.scrollTop + window.innerHeight ===
-          document.documentElement.offsetHeight;
-
-        if (bottomOfWindow) {
-          this.splitTags();
-        }
-      };
     }
   }
 };
 </script>
 
 <style scoped>
+.userCard {
+  margin-top: 5px;
+  border-radius: 4px;
+  background: #fff;
+  padding-bottom: 8px;
+  padding-top: 8px;
+  margin-bottom: 5px;
+  display: inline-block;
+  width: 96%;
+  overflow: hidden;
+  text-align: left;
+}
+
+.userCard img {
+  margin-left: 8px;
+  float: left;
+  width: 50px;
+  height: 50px;
+  padding: 0 6px 0 0;
+  background: #fff;
+  border-radius: 4px;
+}
+
+.userCard h3 {
+  display: inline;
+  font-size: 1.1rem;
+}
+
+.userCard span {
+  display: block;
+  width: 97%;
+  margin-left: 5px;
+  margin: 3px;
+}
+
 .wrapper {
   display: flex;
   justify-content: center;
@@ -112,12 +134,18 @@ export default {
   width: 100%;
 }
 .card {
-  background: #fff;
+  background: blueviolet;
   color: #081b33;
   margin: 12px 0;
   padding: 8px;
+  width: 100%;
   text-align: left;
   border-radius: 4px;
+}
+.card img {
+  width: 45px;
+  height: 45px;
+  border-radius: 100%;
 }
 .card .headline {
   font-size: 1.2em;
@@ -208,8 +236,25 @@ export default {
     width: 40%;
     margin: 1% 30%;
   }
-  .card {
+  .userCard {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     width: 40%;
+    margin: 1% 30%;
+  }
+}
+@media only screen and (min-width: 1024px) and (max-height: 1366px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 1.5) {
+  .userCard {
+    width: 60% !important;
+    margin: 0%;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (max-height: 1366px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1.5) {
+  .userCard {
+    width: 60% !important;
+    margin: 0%;
   }
 }
 </style>

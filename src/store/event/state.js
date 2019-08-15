@@ -4,12 +4,13 @@ const state = {
     not: "",
     name: "Home"
   },
-  navbar: "home",
+  navbar: "#home",
   data: [],
   currentData: [],
   lastId: 876876,
   sData: [],
   hData: [],
+  deeper: [],
   loaded: false
 };
 

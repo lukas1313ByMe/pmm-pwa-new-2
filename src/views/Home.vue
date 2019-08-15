@@ -2,9 +2,7 @@
   <div>
     <h-content v-if="isActive" :item="newData"></h-content>
     <div v-else class="production">
-      <div>
-        <div v-html="currentData.description"></div>
-      </div>
+      <div v-html="currentData.description"></div>
     </div>
   </div>
 </template>
@@ -20,13 +18,6 @@ export default {
   },
   data() {
     return {
-      station: "https://publishing-metro-map.com/con.php#joy_158880",
-      vdp: "https://publishing-metro-map.com/vdp#joy_157569",
-      codeware: "https://publishing-metro-map.com/dbp#joy_157650",
-      dbp: "https://publishing-metro-map.com/dbp#joy_158920",
-      epa: "https://publishing-metro-map.com/epa#joy_158046",
-      edu: "https://publishing-metro-map.com/edu#joy_158999",
-      con: "https://publishing-metro-map.com/con#joy_158999",
       oyen: "https://www.oyen.de/img/logo_saso.png",
       data: null,
       newData: []
@@ -56,6 +47,7 @@ export default {
         .then(() => {
           if (this.tag.name === "Home") {
             // get home data at index 16
+            this.$store.commit("event/SET_NAVBAR", "#home");
             this.$store.commit("event/SET_CURRENTDATA", this.data[16]);
           } else {
             const dataLeft = this.data.slice(0, 16);

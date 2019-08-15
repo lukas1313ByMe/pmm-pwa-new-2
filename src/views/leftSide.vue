@@ -1,19 +1,11 @@
 <template>
   <div>
     <div style="text-align: left !important;" class="production">
-      <h2 v-if="tag.name === 'Home'" text-align: left !important;>
-        {{speech}}
-        <small>
-          {{name}}
-          <a :href="oyen" target="_blank">{{oyen}}</a>
-          {{date}}
-        </small>
-      </h2>
-      <div style="text-align: left !important;" v-else>
-        <div class="img-card">
-          <img :src="sData.img_icon" alt>
+      <div style="text-align: left !important;">
+        <div style="float: left" class="img-card">
+          <img style="margin: 2px 6px 2px 0" :src="sData.img_icon" v-if="sData.img_icon" alt>
         </div>
-        <span style="margin-top: 20px" v-html="sData.description"></span>
+        <span v-html="sData.description"></span>
       </div>
     </div>
   </div>
@@ -21,20 +13,43 @@
 
 <script>
 import { mapState } from "vuex";
+import axios from "axios";
 
 export default {
   data() {
     return {
-      name: "Jörg Oyen,",
-      oyen: "oyen.de",
-      speech: "«Produktkommunikation spielt mit Erwartungen»",
       date: "02.2019",
-      isActive: false
+      isActive: false,
+      newData: []
     };
+  },
+  created() {
+    this.run();
   },
   methods: {
     openCard() {
       this.isActive = !this.isActive;
+    },
+    run() {
+      axios
+        .get("https://share.ninoxdb.de/ncdpa8vxntv0k3duplfomgtxd6lv194iizww")
+        .then(doc => {
+          this.data = doc.data;
+        })
+        .then(() => {
+          this.newData = this.data.slice(0, 16);
+        })
+        .then(() => {
+          this.newData.forEach(doc => {
+            if (this.tag.id_n === doc.name) {
+              this.$store.commit("event/SET_SDATA", doc);
+              this.$store.commit("event/SET_NAVBAR", doc.img_icon);
+              if (this.tag.name === "Home") {
+                this.$store.commit("event/SET_NAVBAR", doc.name);
+              }
+            }
+          });
+        });
     }
   },
   computed: {
@@ -70,6 +85,12 @@ export default {
     text-align: left !important;
     width: 40%;
     margin: 1% 30%;
+  }
+}
+@media only screen and (min-width: 1024px) and (max-height: 1366px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 1.5) {
+  .production {
+    width: 10% !important;
+    margin: 0%;
   }
 }
 </style>
