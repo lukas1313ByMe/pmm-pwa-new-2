@@ -74,11 +74,15 @@ export default {
 
       this.$store.state.event.hData = [];
 
-      this.changeShow(i);
-      // push api data in tag object (store)
-      // this.$store.commit("event/SET_SDATA", tag);
-      this.$store.commit("event/SET_TAG", tag);
-      await this.$router.push(`/tag/${tag.name}/`);
+      if (tag.name === "Home") {
+        this.changeShow(i);
+        this.$store.commit("event/SET_TAG", tag);
+        await this.$router.push(`/pwa/${tag.name}/`);
+      } else {
+        this.changeShow(i);
+        this.$store.commit("event/SET_TAG", tag);
+        await this.$router.push(`/tag/${tag.name}/`);
+      }
     }
   },
   mounted() {
