@@ -46,9 +46,9 @@ export default {
         })
         .then(() => {
           if (this.tag.name === "Home") {
-            // get home data at index 16
+            // get home data at index 9
             this.$store.commit("event/SET_NAVBAR", "#home");
-            this.$store.commit("event/SET_CURRENTDATA", this.data[16]);
+            this.$store.commit("event/SET_CURRENTDATA", this.data[9]);
           } else {
             const dataLeft = this.data.slice(0, 16);
             this.$store.commit("event/SET_DATA", dataLeft);
