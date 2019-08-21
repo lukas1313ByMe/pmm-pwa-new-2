@@ -33,7 +33,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("event", ["tag", "hData", "data"])
+    ...mapState("event", ["tag", "hData", "data", "navbar"])
   },
   created() {
     this.getData();
@@ -51,7 +51,11 @@ export default {
       return newString.substring(0, 110) + "...";
     },
     deeperView(data) {
-      this.$store.commit("event/SET_TAG", "random");
+      const data2 = {
+        active: this.tag.active,
+        name: "random"
+      };
+      this.$store.commit("event/SET_TAG", data2);
       this.$store.commit("event/SET_DEEPER", data);
       this.$router.push(`/navigation/${data.id}`);
     },

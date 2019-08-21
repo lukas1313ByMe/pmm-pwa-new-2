@@ -41,7 +41,11 @@ export default {
   },
   methods: {
     changeRoute() {
-      this.$store.commit("event/SET_TAG", "world");
+      const data = {
+        active: 'https://www.oyen.de/img/logo_saso.png',
+        name: 'world'
+      }
+      this.$store.commit("event/SET_TAG", data);
     }
   }
 };

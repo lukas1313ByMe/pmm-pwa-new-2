@@ -29,6 +29,7 @@ export default {
   computed: {
     ...mapState("event", ["tag", "loaded"]),
     oyen() {
+
       return this.tag.active;
     }
   },

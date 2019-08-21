@@ -3,7 +3,7 @@
     <div
       class="center-me"
       style="padding:0 !important; margin: 0"
-      v-if="deeper != '' && tag === 'random'"
+      v-if="deeper != '' && tag.name === 'random'"
     >
       <l-deeper :data="deeper"></l-deeper>
     </div>
